@@ -3,10 +3,9 @@
 #include "../catch.hpp"
 #include "solution.hpp"
 
-Solution s;
-
 TEST_CASE("merge sort", "[sort]")
 {
+    Solution s;
     vector<vector<int>> cases{
         {},
         {1},
