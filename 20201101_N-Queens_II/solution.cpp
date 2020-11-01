@@ -89,6 +89,6 @@ int Board::solve_iter()
 int Solution::totalNQueens(int n)
 {
     Board b{n};
-
+    // return b.solve_recu();
     return b.solve_iter();
 }
