@@ -13,7 +13,8 @@ struct QueenPosition {
 class Board {
 public:
     explicit Board(int n) : size{n} {}
-    int solve() { return solve(0, 0); }
+    int solve_recu() { return solve(0, 0); }  // recursion
+    int solve_iter();                         // iteration
 
 private:
     vector<QueenPosition> queens;  // placed queen postions
@@ -52,9 +53,42 @@ int Board::solve(int row, int count)
     return count;
 }
 
+int Board::solve_iter()
+{
+    int row = 0;
+    int col = 0;
+    int count = 0;
+    auto traceback = [this, &row, &col]() {
+        row = this->queens.back().row;
+        col = this->queens.back().col + 1;
+        this->remove_queen();
+    };
+
+    while (size > 0) {
+        if (row == size) {
+            ++count;
+            traceback();
+        } else if (col == size) {
+            if (queens.empty()) break;
+            traceback();
+        } else {
+            while (col < size) {
+                if (is_not_under_attack(row, col)) {
+                    place_queen(row, col);
+                    row++;
+                    col = 0;
+                    break;
+                }
+                col++;
+            }
+        }
+    }
+    return count;
+}
+
 int Solution::totalNQueens(int n)
 {
     Board b{n};
 
-    return b.solve();
+    return b.solve_iter();
 }
